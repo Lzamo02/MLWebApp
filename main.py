@@ -1,12 +1,8 @@
-from pyexpat import model
-
 import streamlit as st
 import pandas as pd
 import numpy as np
-from sklearn.datasets import make_classification
-from sklearn.metrics import RocCurveDisplay
 from sklearn.model_selection import train_test_split
-from sklearn.svm import SVC  # Support Vector Classification
+from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
