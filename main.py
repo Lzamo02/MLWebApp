@@ -14,7 +14,16 @@ from sklearn.metrics import precision_score, recall_score
 def main():
     st.title("Binary Classification Web App")
     st.sidebar.title("Binary Classification Web App")
-    st.markdown
+    st.markdown("Are your mushrooms edible or poisonous? 🍄")
+    st.sidebar.markdown("Are your mushrooms edible or poisonous? 🍄")
+
+    @st.cache(persist=True)
+    def load_data():
+        data = pd.read_csv('/Users/limhiz/Desktop/MLWebApp/mushrooms.csv')
+        label = LabelEncoder()
+        for col in data.columns:
+            data[col] = label.fit(data[col])
+        return data
 
 if __name__ == '__main__':
     main()
