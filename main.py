@@ -58,7 +58,7 @@ def main():  # Portion where logic of app is written
     class_names = ['edible', 'poisonous']
     st.sidebar.subheader('Choose Classifier')
     classifier = st.sidebar.selectbox("Classifier",
-                                      ("Support Vector Machine (SVM)", "Logistics Regression", "Random Forest"))
+                                      ("Support Vector Machine (SVM)", "Logistic Regression", "Random Forest"))
     st.set_option('deprecation.showPyplotGlobalUse', False)
     if classifier == 'Support Vector Machine (SVM)':
         st.sidebar.subheader("Model Hyperparameters")
@@ -72,6 +72,26 @@ def main():  # Portion where logic of app is written
         if st.sidebar.button("Classify", key='classify'):
             st.subheader("Support Vector Machine (SVM) Result")
             model = SVC(C=C, kernel=kernel, gamma=gamma)
+            model.fit(x_train, y_train)
+            accuracy = model.score(x_test, y_test)
+            y_pred = model.predict(x_test)
+            st.write("Accuracy: ", accuracy.round(2))
+            st.write("Precision: ", precision_score(y_test, y_pred, labels=class_names).round(2))
+            st.write("Recall: ", recall_score(y_test, y_pred, labels=class_names).round(2))
+            plot_metrics(metrics)
+
+
+    if classifier == 'Logistic Regression':
+        st.sidebar.subheader("Model Hyperparameters")
+        C = st.sidebar.number_input("C (Regularization parameter)", 0.01, 10.0, step=0.01, key='C_LR')
+        max_iter=st.sidebar.slider("Maximum number of iterations", 100, 500, key = 'max_iter')
+
+        metrics = st.sidebar.multiselect("What metrics to plot?",
+                                         ("Confusion Matrix", "ROC Curve", "Precision-Recall Curve"))
+
+        if st.sidebar.button("Classify", key='classify'):
+            st.subheader("Logistic Regression")
+            model = LogisticRegression(C=C, max_iter=max_iter)
             model.fit(x_train, y_train)
             accuracy = model.score(x_test, y_test)
             y_pred = model.predict(x_test)
